@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  transmission:
+    image: linuxserver/transmission:latest
+    volumes:
+      # where transmission download torrent data
+      - ./tmp/docker/transmission/downloads:/downloads
+      # where transmission stores its configuration, logs files
+      - ./tmp/docker/transmission/config:/config
+      # transsmision will watch and automatically add .torrent files in this directory
+      - ./tmp/docker/transmission/watch:/watch
+    environment:
+      - USER=${BT_USER}
+      - PASS=${BT_PASS}
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+  # jackett:
+  #   image: linuxserver/jackett:latest
+  #   volumes:
+  #     # where jackett stores its configuration, logs files
+  #     - ./tmp/docker/jackett/config:/config
+  #     # where jackett download .torrent files
+  #     - ./tmp/docker/jackett/downloads:/downloads
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Paris
+  #   ports:
+  #     - 9117:9117
