@@ -1,0 +1,69 @@
+{
+  "name": "@droplt/graphql",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Droplt GraphQL API",
+  "repository": "git@github.com:droplt/graphql.git",
+  "license": "MIT",
+  "author": "François Lefebvre <francois.lfe@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "postbuild": "cpy package.json yarn.lock dist",
+    "lint": "eslint . --ext .ts --fix",
+    "predev": "cpy .env.example .env --rename --no-overwrite",
+    "dev": "ts-node-dev --respawn --clear --rs src/index.ts",
+    "prepare": "husky install"
+  },
+  "commitlint": {
+    "extends": [
+      "@droplt"
+    ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "dependencies": {
+    "apollo-server": "^2.22.2",
+    "better-sqlite3": "^7.1.4",
+    "class-validator": "^0.13.1",
+    "deep-equal": "^2.0.5",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.5.0",
+    "node-schedule": "^2.0.0",
+    "ramda": "^0.27.1",
+    "reflect-metadata": "^0.1.13",
+    "transmission-promise": "^1.1.5",
+    "type-graphql": "^1.1.1",
+    "typedi": "^0.10.0",
+    "typeorm": "^0.2.32",
+    "typeorm-typedi-extensions": "^0.4.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@droplt/commitlint-config": "^1.1.0",
+    "@types/deep-equal": "^1.0.1",
+    "@types/node": "^14.14.37",
+    "@types/node-schedule": "^1.3.1",
+    "@types/ramda": "^0.27.39",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "cpy-cli": "^3.1.1",
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "sort-package-json": "^1.49.0",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.3"
+  }
+}

@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  transmission:
+    image: linuxserver/transmission:latest
+    volumes:
+      # where transmission download torrent data
+      - ./tmp/docker/transmission/downloads:/downloads
+      # where transmission stores its configuration, logs files
+      - ./tmp/docker/transmission/config:/config
+      # transsmision will watch and automatically add .torrent files in this directory
+      - ./tmp/docker/transmission/watch:/watch
+    environment:
+      - USER=${TRANSMISSION_USER}
+      - PASS=${TRANSMISSION_PASS}
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp

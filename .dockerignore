@@ -1,0 +1,17 @@
+.github
+.husky
+database
+dist
+node_modules
+tmp
+.dockerignore
+.editorconfig
+.env
+.eslintignore
+.eslintrc.js
+.lintstagedrc.js
+.nvmrc
+docker-compose.yml
+Dockerfile
+LICENSE
+README.md

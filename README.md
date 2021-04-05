@@ -1,1 +1,1 @@
-# koa
+# Droplt GraphQL gateway
