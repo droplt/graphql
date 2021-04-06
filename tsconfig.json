@@ -9,6 +9,10 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "typeRoots": [
+      "./server/@types",
+      "./node_modules/@types"
+    ]
   }
 }

@@ -20,13 +20,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     restart: always
-    environment:
-      - NODE_ENV=staging
-      - PORT=4000
-      - TRANSMISSION_HOST=${TRANSMISSION_HOST}
-      - TRANSMISSION_PORT=${TRANSMISSION_PORT}
-      - TRANSMISSION_USER=${TRANSMISSION_USER}
-      - TRANSMISSION_PASS=${TRANSMISSION_PASS}
+    env_file: .env
     ports:
       - 4000:4000
 

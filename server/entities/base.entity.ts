@@ -1,10 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
-import {
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  UpdateDateColumn
-} from 'typeorm';
+import { CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -16,8 +11,4 @@ export class BaseModel {
   @Field()
   @UpdateDateColumn()
   updated_at: Date;
-
-  @Field({ nullable: true })
-  @DeleteDateColumn({ nullable: true })
-  deleted_at?: Date;
 }
