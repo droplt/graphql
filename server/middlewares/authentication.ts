@@ -1,5 +1,5 @@
 import cookies from 'cookie-parser';
-import { NextFunction, Request, Response, Router } from 'express';
+import express from 'express';
 import bearer from 'express-bearer-token';
 
 import { AUTH_COOKIE, AUTH_EXPIRES } from '../constants';
@@ -9,7 +9,12 @@ import admin from '../services/firebase';
 // - populate req.user with signed-in user
 // - try to refresh session cookie if request has a token
 const checkSessionCookie =
-  () => async (req: Request, res: Response, next: NextFunction) => {
+  () =>
+  async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
     const { token = '', cookies } = req;
     const { access_token } = cookies;
 
@@ -35,7 +40,12 @@ const checkSessionCookie =
 // - verify access token
 // - attach session cookie to response
 const refreshSessionCookie =
-  () => async (req: Request, res: Response, next: NextFunction) => {
+  () =>
+  async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
     const { token = '' } = req;
 
     if (!token) {
@@ -65,7 +75,8 @@ const refreshSessionCookie =
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const authentication = () =>
-  Router()
+  express
+    .Router()
     .use(cookies())
     .use(bearer())
     .use(checkSessionCookie())
