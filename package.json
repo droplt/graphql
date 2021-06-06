@@ -20,6 +20,15 @@
       "@droplt"
     ]
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
+  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -27,32 +36,31 @@
     "trailingComma": "none"
   },
   "dependencies": {
+    "@ctrl/shared-torrent": "^3.0.5",
+    "@ctrl/transmission": "^2.2.2",
     "apollo-server-express": "^2.22.2",
-    "better-sqlite3": "^7.1.4",
     "class-validator": "^0.13.1",
+    "cookie-parser": "^1.4.5",
     "deep-equal": "^2.0.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-openid-connect": "^2.3.1",
+    "express-bearer-token": "^2.4.0",
+    "firebase-admin": "^9.9.0",
+    "fireorm": "^0.22.0",
     "graphql": "^15.5.0",
-    "graphql-upload": "^11.0.0",
-    "node-schedule": "^2.0.0",
     "ramda": "^0.27.1",
     "reflect-metadata": "^0.1.13",
+    "toad-scheduler": "^1.3.0",
     "transmission-promise": "^1.1.5",
     "type-graphql": "^1.1.1",
-    "typedi": "^0.10.0",
-    "typeorm": "^0.2.32",
-    "typeorm-typedi-extensions": "^0.4.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@droplt/commitlint-config": "^1.1.0",
+    "@types/cookie-parser": "^1.4.2",
     "@types/deep-equal": "^1.0.1",
-    "@types/graphql-upload": "^8.0.4",
     "@types/node": "^14.14.37",
-    "@types/node-schedule": "^1.3.1",
     "@types/ramda": "^0.27.39",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
