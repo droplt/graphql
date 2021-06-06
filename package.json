@@ -35,6 +35,30 @@
     "singleQuote": true,
     "trailingComma": "none"
   },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "prettier",
+      "simple-import-sort"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": 2,
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "error"
+    }
+  },
+  "eslintIgnore": [
+    ".husky",
+    "dist",
+    "node_modules"
+  ],
   "dependencies": {
     "@ctrl/shared-torrent": "^3.0.5",
     "@ctrl/transmission": "^2.2.2",

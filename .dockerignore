@@ -7,8 +7,6 @@ tmp
 .dockerignore
 .editorconfig
 .env
-.eslintignore
-.eslintrc.js
 .nvmrc
 docker-compose.yml
 Dockerfile
