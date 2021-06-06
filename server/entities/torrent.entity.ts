@@ -1,55 +1,19 @@
+import { Collection, getRepository } from 'fireorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { TorrentStatus } from '../types';
-import { BaseModel, FileInterface, FileModel } from '.';
-
-export interface TorrentInterface {
-  hash: string;
-  id: number;
+export interface ITorrentModel {
+  id: string;
   name: string;
-  size: number;
-  status: number;
-  error: number;
-  errorString: string;
-  files?: FileInterface[];
 }
 
-@Entity()
-@ObjectType()
-export class TorrentModel extends BaseModel implements TorrentInterface {
+@ObjectType('Torrent')
+@Collection('Torrents')
+export class TorrentModel implements ITorrentModel {
   @Field(() => ID)
-  @PrimaryColumn()
-  hash: string;
+  id: string;
 
-  @Field(() => Number)
-  @Column()
-  id: number;
-
-  @Field(() => String)
-  @Column()
+  @Field()
   name: string;
-
-  @Field(() => Number)
-  @Column()
-  size: number;
-
-  @Field(() => TorrentStatus)
-  @Column()
-  status: number;
-
-  @Field(() => Number)
-  @Column()
-  error: number;
-
-  @Field(() => String)
-  @Column()
-  errorString: string;
-
-  @Field(() => [FileModel])
-  @OneToMany(() => FileModel, (file) => file.torrent, {
-    cascade: true,
-    eager: true
-  })
-  files: FileInterface[];
 }
+
+export const torrentRepository = getRepository(TorrentModel);

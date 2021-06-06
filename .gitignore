@@ -10,9 +10,9 @@ yarn-error.log*
 .env
 
 # Generated files
-database
-dist
-schema.gql
+/dist
+/schema.gql
+/firebase.json
 
 # Development / Testing files
 coverage

@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["ES6"],
-    "module": "commonjs",
-    "outDir": "dist",
     "strict": true,
-    "esModuleInterop": true,
+    "target": "es2018",
+    "lib": ["ESNext"],
+    "outDir": "dist",
+    "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "typeRoots": [
-      "./server/@types",
+      "@types",
       "./node_modules/@types"
     ]
   }
