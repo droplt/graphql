@@ -1,11 +1,11 @@
-version: "3.7"
+version: '3.7'
 
 services:
   # Watchtower - Auto update docker images
   watchtower:
     image: containrrr/watchtower
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - 'com.centurylinklabs.watchtower.enable=true'
     network_mode: none
     restart: always
     volumes:
@@ -18,7 +18,7 @@ services:
     depends_on:
       - watchtower
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - 'com.centurylinklabs.watchtower.enable=true'
     restart: always
     env_file: .env
     volumes:
@@ -34,7 +34,7 @@ services:
     depends_on:
       - watchtower
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - 'com.centurylinklabs.watchtower.enable=true'
     restart: always
     volumes:
       # where transmission download torrent data
@@ -60,7 +60,7 @@ services:
     depends_on:
       - watchtower
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - 'com.centurylinklabs.watchtower.enable=true'
     restart: always
     volumes:
       # where jackett stores its configuration, logs files

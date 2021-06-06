@@ -1,6 +1,6 @@
 import { AuthUser, UserRole } from '../../types';
 
-const getUserRoles = (user?: AuthUser) => {
+const getUserRoles = (user?: AuthUser): UserRole[] => {
   const { admin = false, contributor = false } = user?.customClaims || {};
 
   if (admin) {

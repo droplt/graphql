@@ -4,7 +4,7 @@ import { getUserRoles } from '../helpers/user';
 import { Context, UserRole } from '../types';
 
 export const authorization: AuthChecker<Context, UserRole> = (
-  { root, args, context, info },
+  { context },
   requiredRoles
 ) => {
   // Retrieve user roles from customClaims
