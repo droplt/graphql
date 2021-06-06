@@ -11,8 +11,8 @@ services:
       # transsmision will watch and automatically add .torrent files in this directory
       - ./tmp/docker/transmission/watch:/watch
     environment:
-      - USER=${TRANSMISSION_USER}
-      - PASS=${TRANSMISSION_PASS}
+      - USER=${TRANSMISSION_USERNAME}
+      - PASS=${TRANSMISSION_PASSWORD}
     ports:
       - 9091:9091
       - 51413:51413

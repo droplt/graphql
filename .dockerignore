@@ -1,6 +1,6 @@
+.git
 .github
 .husky
-database
 dist
 node_modules
 tmp
@@ -9,7 +9,6 @@ tmp
 .env
 .eslintignore
 .eslintrc.js
-.lintstagedrc.js
 .nvmrc
 docker-compose.yml
 Dockerfile

@@ -21,8 +21,12 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     restart: always
     env_file: .env
+    volumes:
+      - $GOOGLE_APPLICATION_CREDENTIALS:/tmp/keys/firebase.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/firebase.json
     ports:
-      - 4000:4000
+      - 1338:1338
 
   # Transmission - BitTorrent client
   transmission:
@@ -43,8 +47,8 @@ services:
       - PUID=0
       - PGID=0
       - TZ=Europe/Paris
-      - USER=${TRANSMISSION_USER}
-      - PASS=${TRANSMISSION_PASS}
+      - USER=${TRANSMISSION_USERNAME}
+      - PASS=${TRANSMISSION_PASSWORD}
     ports:
       - 9091:9091
       - 51413:51413
