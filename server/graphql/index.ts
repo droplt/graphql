@@ -1,2 +1,2 @@
-export * from './torrent.inputs';
 export * from './torrent.resolver';
+export * from './user.resolver';
