@@ -11,12 +11,12 @@ yarn-error.log*
 
 # Generated files
 /dist
-/schema.gql
+/public
 /firebase.json
 
 # Development / Testing files
-coverage
-tmp
+/coverage
+/tmp
 
 # VSCode & Webstorm history directories
 .history

@@ -11,8 +11,8 @@
     "build": "tsc",
     "postbuild": "cpy package.json yarn.lock dist",
     "lint": "eslint . --ext .ts --fix",
-    "predev": "cpy .env.example .env --rename --no-overwrite",
-    "dev": "ts-node-dev --respawn --clear --transpile-only --rs server/index.ts",
+    "prestart": "cpy .env.example .env --rename --no-overwrite",
+    "start": "ts-node-dev --respawn --clear --transpile-only --rs server/index.ts",
     "prepare": "husky install"
   },
   "commitlint": {
