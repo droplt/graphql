@@ -3,7 +3,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { UserRole } from '../types';
 
 @ObjectType('User')
-export class UserModel {
+export class User {
   @Field(() => ID)
   uid: string;
 

@@ -8,9 +8,8 @@ import express from 'express';
 import path from 'path';
 import * as TypeGraphQL from 'type-graphql';
 
-import { TorrentResolver, UserResolver } from './graphql';
-import { authentication, authorization } from './middlewares';
-import { Context } from './types';
+import { TorrentResolver, UserResolver } from './graphql/resolvers';
+import { authChecker, authentication, context } from './middlewares';
 
 const { PORT = 1338 } = process.env;
 
@@ -22,11 +21,9 @@ const { PORT = 1338 } = process.env;
     schema: await TypeGraphQL.buildSchema({
       resolvers: [UserResolver, TorrentResolver],
       emitSchemaFile: 'public/schema.graphql',
-      authChecker: authorization
+      authChecker
     }),
-    context: async ({ req }: { req: express.Request }): Promise<Context> => ({
-      user: req.user
-    }),
+    context,
     playground: {
       settings: {
         'request.credentials': 'include'

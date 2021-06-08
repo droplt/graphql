@@ -1,8 +1,8 @@
-import { UserModel } from '../../entities';
+import { User } from '../../entities/user';
 import admin from '../../services/firebase';
 import { UserRole } from '../../types';
 
-const toUserModel = (firebaseUser: admin.auth.UserRecord): UserModel => {
+const toUser = (firebaseUser: admin.auth.UserRecord): User => {
   const {
     uid,
     email,
@@ -40,4 +40,4 @@ const toUserModel = (firebaseUser: admin.auth.UserRecord): UserModel => {
   };
 };
 
-export default toUserModel;
+export default toUser;

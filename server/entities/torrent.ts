@@ -1,14 +1,14 @@
 import { Collection, getRepository } from 'fireorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 
-export interface ITorrentModel {
+export interface ITorrent {
   id: string;
   name: string;
 }
 
 @ObjectType('Torrent')
 @Collection('Torrents')
-export class TorrentModel implements ITorrentModel {
+export class Torrent implements ITorrent {
   @Field(() => ID)
   id: string;
 
@@ -16,4 +16,4 @@ export class TorrentModel implements ITorrentModel {
   name: string;
 }
 
-export const torrentRepository = getRepository(TorrentModel);
+export const repository = getRepository(Torrent);

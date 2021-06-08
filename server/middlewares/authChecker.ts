@@ -3,7 +3,7 @@ import { AuthChecker } from 'type-graphql';
 import { getUserRoles } from '../helpers/user';
 import { Context, UserRole } from '../types';
 
-export const authorization: AuthChecker<Context, UserRole> = (
+export const authChecker: AuthChecker<Context, UserRole> = (
   { root, args, info, context },
   requiredRoles
 ) => {
