@@ -128,20 +128,23 @@ export default class Handler {
     // We need to calculate a uniq id for each torrent because of transmission service.
     // After a service restart, all torrents ids are re-assigned randomly.
     // So we can't use them as consitent identifiers.
-    return torrents
-      .map((t) => ({
-        uuid: getUuid(t),
-        tid: t.id,
-        ...t
-      }))
-      .map(({ id, ...t }) => t)
-      .reduce(
-        (acc, torrent) => ({
-          ...acc,
-          [torrent.uuid]: torrent
-        }),
-        {}
-      );
+    return (
+      torrents
+        .map((t) => ({
+          uuid: getUuid(t),
+          tid: t.id,
+          ...t
+        }))
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .map(({ id, ...t }) => t)
+        .reduce(
+          (acc, torrent) => ({
+            ...acc,
+            [torrent.uuid]: torrent
+          }),
+          {}
+        )
+    );
   }
 
   private formatUpdates(feed: Feed): Array<Partial<Torrent>> {
