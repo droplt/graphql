@@ -1,18 +1,19 @@
 import deepEqual from 'deep-equal';
 import { pick } from 'ramda';
 
+import { repository, Torrent } from '../../entities/torrent';
 import { getUuid } from '../../helpers/torrent';
 import bt, { NormalizedTorrent } from '../../services/bittorrent';
 
-interface Torrent extends NormalizedTorrent {
+interface ExtendedTorrent extends NormalizedTorrent {
   uuid: string;
 }
 
 interface Feed {
-  [id: string]: Record<string, Partial<Torrent>>;
+  [id: string]: Record<string, Partial<ExtendedTorrent>>;
 }
 
-const PROPS_TO_SAVE: Array<keyof Torrent> = [
+const PROPS_TO_SAVE: Array<keyof ExtendedTorrent> = [
   'uuid',
   'id',
   'name',
@@ -38,15 +39,29 @@ export default class Handler {
     const updates = this.formatUpdates(feedDiff);
 
     if (updates.length !== 0) {
-      console.log('to save');
-      console.log(updates);
+      // console.log(updates);
+      const batch = repository.createBatch();
+      updates.map((update) => {
+        const torrent = new Torrent();
+        if (update.uuid) {
+          torrent.id = update.uuid;
+        }
+        if (update.name) {
+          torrent.name = update.name;
+        }
+        if (update.totalSize) {
+          torrent.size = update.totalSize;
+        }
+        if (update.state) {
+          torrent.state = update.state;
+        }
+        if (update.progress) {
+          torrent.progress = update.progress;
+        }
+        batch.create(torrent);
+      });
+      await batch.commit();
     }
-
-    // // check if there is any diff
-    // if (Object.keys(feedDiff).length > 0) {
-    //   // prepare diff to be applied to database
-    //   console.log(feedDiff);
-    // }
 
     this.currFeed = nextFeed;
   }
@@ -147,7 +162,7 @@ export default class Handler {
     );
   }
 
-  private formatUpdates(feed: Feed): Array<Partial<Torrent>> {
+  private formatUpdates(feed: Feed): Array<Partial<ExtendedTorrent>> {
     // We need to filter the torrent properties we want to save to database.
     // To ease this process we add torrent uuit to.
     return Object.keys(feed)
