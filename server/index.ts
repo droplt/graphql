@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import 'reflect-metadata';
 import './services/fireorm';
-import './services/transmission';
+import './services/bittorrent';
 
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
@@ -20,7 +20,7 @@ const { PORT = 1338 } = process.env;
    * In-memory jobs scheduler
    */
   new ToadScheduler().addSimpleIntervalJob(
-    new SimpleIntervalJob({ milliseconds: 1500 }, feeder)
+    new SimpleIntervalJob({ milliseconds: 800 }, feeder)
   );
 
   /**

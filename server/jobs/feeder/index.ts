@@ -1,13 +1,6 @@
 import { AsyncTask } from 'toad-scheduler';
 
-export default new AsyncTask(
-  '',
-  () => {
-    console.log('coucou');
+import Handler from './handler';
+const handler = new Handler();
 
-    return Promise.resolve();
-  },
-  (err: Error) => {
-    return Promise.reject(err);
-  }
-);
+export default new AsyncTask('feed', () => handler.run(), handler.onError);
