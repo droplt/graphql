@@ -1,4 +1,5 @@
 import deepEqual from 'deep-equal';
+import { pick } from 'ramda';
 
 import { getUuid } from '../../helpers/torrent';
 import bt, { NormalizedTorrent } from '../../services/bittorrent';
@@ -8,8 +9,17 @@ interface Torrent extends NormalizedTorrent {
 }
 
 interface Feed {
-  [id: string]: Record<string, Torrent>;
+  [id: string]: Record<string, Partial<Torrent>>;
 }
+
+const PROPS_TO_SAVE: Array<keyof Torrent> = [
+  'uuid',
+  'id',
+  'name',
+  'totalSize',
+  'state',
+  'progress'
+];
 
 export default class Handler {
   private currFeed: Feed = {};
@@ -24,11 +34,19 @@ export default class Handler {
     // build diff with current feed
     const feedDiff = this.feedDiff(nextFeed);
 
-    // check if there is any diff
-    if (Object.keys(feedDiff).length > 0) {
-      // save diff to database
-      console.log(feedDiff);
+    // build diff to be applied to database
+    const updates = this.formatUpdates(feedDiff);
+
+    if (updates.length !== 0) {
+      console.log('to save');
+      console.log(updates);
     }
+
+    // // check if there is any diff
+    // if (Object.keys(feedDiff).length > 0) {
+    //   // prepare diff to be applied to database
+    //   console.log(feedDiff);
+    // }
 
     this.currFeed = nextFeed;
   }
@@ -42,30 +60,28 @@ export default class Handler {
 
     let newItemCount = 0;
 
-    const diff = Object.keys(nextFeed).reduce((acc, hash) => {
-      const currFeedItem = currFeed[hash];
-      const nextFeedItem = nextFeed[hash];
+    const diff = Object.keys(nextFeed).reduce((acc, uuid) => {
+      const currFeedItem = currFeed[uuid];
+      const nextFeedItem = nextFeed[uuid];
 
-      // hash doesn't exists in currFeed
-      // it's a brand new item, so every detail is part of the diff
+      // uuid doesn't exists: it's a brand new item, so every detail is part of the diff
       if (typeof currFeedItem === 'undefined') {
         // add whole item to diff
-        acc[hash] = nextFeedItem;
+        acc[uuid] = nextFeedItem;
         newItemCount += 1;
         return acc;
       }
 
-      // hash exists
-      // compute props differences
+      // uuid exists: compute props differences
       Object.keys(nextFeedItem).forEach((propKey) => {
         // if one of the prop is inequal, we need to add it to the diff
         if (!deepEqual(currFeedItem[propKey], nextFeedItem[propKey])) {
-          // initialize hash diff when this is the first known inequal prop
-          if (typeof acc[hash] === 'undefined') {
-            acc[hash] = {};
+          // initialize uuid diff when this is the first known inequal prop
+          if (typeof acc[uuid] === 'undefined') {
+            acc[uuid] = {};
           }
           // add prop to diff
-          acc[hash][propKey] = nextFeedItem[propKey];
+          acc[uuid][propKey] = nextFeedItem[propKey];
         }
       });
 
@@ -99,27 +115,45 @@ export default class Handler {
     }
 
     if (shouldLook) {
-      Object.keys(this.currFeed).forEach((hash) => {
-        if (typeof nextFeed[hash] === 'undefined') {
+      Object.keys(this.currFeed).forEach((uuid) => {
+        if (typeof nextFeed[uuid] === 'undefined') {
           // soft delete item from database
-          console.log('DELETE', hash);
+          console.log('DELETE', uuid);
         }
       });
     }
   }
 
   private formatFeed(torrents: NormalizedTorrent[]): Feed {
+    // We need to calculate a uniq id for each torrent because of transmission service.
+    // After a service restart, all torrents ids are re-assigned randomly.
+    // So we can't use them as consitent identifiers.
     return torrents
       .map((t) => ({
         uuid: getUuid(t),
+        tid: t.id,
         ...t
       }))
+      .map(({ id, ...t }) => t)
       .reduce(
         (acc, torrent) => ({
           ...acc,
-          [torrent.id]: torrent
+          [torrent.uuid]: torrent
         }),
         {}
       );
+  }
+
+  private formatUpdates(feed: Feed): Array<Partial<Torrent>> {
+    // We need to filter the torrent properties we want to save to database.
+    // To ease this process we add torrent uuit to.
+    return Object.keys(feed)
+      .filter(
+        (uuid) => Object.keys(pick(PROPS_TO_SAVE, feed[uuid])).length !== 0
+      )
+      .map((uuid) => ({
+        uuid,
+        ...pick(PROPS_TO_SAVE, feed[uuid])
+      }));
   }
 }

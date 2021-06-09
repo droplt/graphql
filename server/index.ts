@@ -20,7 +20,7 @@ const { PORT = 1338 } = process.env;
    * In-memory jobs scheduler
    */
   new ToadScheduler().addSimpleIntervalJob(
-    new SimpleIntervalJob({ milliseconds: 800 }, feeder)
+    new SimpleIntervalJob({ milliseconds: 2000 }, feeder)
   );
 
   /**
