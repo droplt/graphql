@@ -6,14 +6,23 @@ import './services/transmission';
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import path from 'path';
+import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as TypeGraphQL from 'type-graphql';
 
 import { TorrentResolver, UserResolver } from './graphql/resolvers';
+import { feeder } from './jobs';
 import { authChecker, authentication, context } from './middlewares';
 
 const { PORT = 1338 } = process.env;
 
 (async () => {
+  /**
+   * In-memory jobs scheduler
+   */
+  new ToadScheduler().addSimpleIntervalJob(
+    new SimpleIntervalJob({ milliseconds: 1500 }, feeder)
+  );
+
   /**
    * ApolloServer configuration
    */
