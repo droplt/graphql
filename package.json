@@ -6,13 +6,14 @@
   "repository": "git@github.com:droplt/graphql.git",
   "license": "MIT",
   "author": "François Lefebvre <francois.lfe@gmail.com>",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "postbuild": "cpy package.json yarn.lock dist",
     "lint": "eslint . --ext .ts --fix",
-    "prestart": "cpy .env.example .env --rename --no-overwrite",
-    "start": "ts-node-dev --respawn --clear --transpile-only --rs server/index.ts",
+    "predev": "cpy .env.example .env --rename --no-overwrite",
+    "dev": "ts-node-dev --respawn --clear --transpile-only --rs server/index.ts",
+    "db": "mikro-orm",
     "prepare": "husky install"
   },
   "commitlint": {
@@ -59,22 +60,27 @@
     "dist",
     "node_modules"
   ],
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./server/config/mikro-orm.config.ts",
+      "./dist/config/mikro-orm.config.js"
+    ]
+  },
   "dependencies": {
-    "@ctrl/shared-torrent": "^3.0.5",
-    "@ctrl/transmission": "^2.2.2",
-    "apollo-server-express": "^2.25.0",
+    "@mikro-orm/cli": "^4.5.6",
+    "@mikro-orm/core": "^4.5.6",
+    "@mikro-orm/migrations": "^4.5.6",
+    "@mikro-orm/sql-highlighter": "^1.0.1",
+    "@mikro-orm/sqlite": "^4.5.6",
+    "apollo-server-express": "^2.25.2",
     "class-validator": "^0.13.1",
-    "cookie-parser": "^1.4.5",
-    "deep-equal": "^2.0.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-bearer-token": "^2.4.0",
-    "firebase-admin": "^9.9.0",
-    "fireorm": "^0.22.0",
-    "graphql": "^15.5.0",
-    "ramda": "^0.27.1",
+    "graphql": "^15.5.1",
     "reflect-metadata": "^0.1.13",
-    "toad-scheduler": "^1.3.0",
+    "toad-scheduler": "^1.4.0",
+    "transmission-promise": "^1.1.5",
     "type-graphql": "^1.1.1",
     "uuid": "^8.3.2"
   },
@@ -82,23 +88,21 @@
     "@commitlint/cli": "^12.1.4",
     "@droplt/commitlint-config": "^1.1.0",
     "@types/cookie-parser": "^1.4.2",
-    "@types/deep-equal": "^1.0.1",
-    "@types/node": "^15.12.1",
-    "@types/ramda": "^0.27.39",
+    "@types/node": "^15.12.5",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
     "cpy-cli": "^3.1.1",
-    "eslint": "^7.28.0",
+    "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.3.1",
+    "prettier": "^2.3.2",
     "sort-package-json": "^1.50.0",
-    "ts-node-dev": "^1.1.6",
-    "typescript": "^4.3.2"
+    "ts-node-dev": "^1.1.7",
+    "typescript": "^4.3.4"
   }
 }

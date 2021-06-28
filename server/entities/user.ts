@@ -1,45 +1,49 @@
+import {
+  Entity,
+  Enum,
+  OneToMany,
+  PrimaryKey,
+  Property,
+  Unique
+} from '@mikro-orm/core';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { v4 } from 'uuid';
 
-import { UserRole } from '../types';
+import { Torrent } from '.';
+import { BaseEntity } from './BaseEntity';
 
 @ObjectType('User')
-export class User {
+@Entity()
+export class User extends BaseEntity {
   @Field(() => ID)
-  uid: string;
-
-  @Field({ nullable: true })
-  email?: string;
-
-  @Field({ nullable: true })
-  phone?: string;
+  @PrimaryKey()
+  id: string = v4();
 
   @Field()
-  username: string;
+  @Property()
+  @Unique()
+  username!: string;
 
   @Field()
-  photoURL: string;
+  @Property()
+  @Unique()
+  email!: string;
+
+  @Field()
+  @Property()
+  password!: string;
 
   @Field(() => UserRole)
-  role: UserRole;
+  @Enum(() => UserRole)
+  role!: UserRole;
 
-  @Field()
-  isAdmin: boolean;
+  @Field(() => [Torrent])
+  @OneToMany(() => Torrent, (torrent) => torrent.user, { nullable: true })
+  torrents?: Torrent[];
+}
 
-  @Field()
-  isContributor: boolean;
-
-  @Field()
-  isVisitor: boolean;
-
-  @Field()
-  isVerified: boolean;
-
-  @Field()
-  isDisabled: boolean;
-
-  @Field()
-  createdAt: Date;
-
-  @Field({ nullable: true })
-  connectedAt?: Date;
+export enum UserRole {
+  ADMIN = 'admin',
+  CONTRIBUTOR = 'contributor',
+  VISITOR = 'visitor'
 }

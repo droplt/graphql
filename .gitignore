@@ -12,6 +12,7 @@ yarn-error.log*
 # Generated files
 /dist
 /public
+/database
 /firebase.json
 
 # Development / Testing files

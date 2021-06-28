@@ -1,31 +1,32 @@
-import { Collection, getRepository } from 'fireorm';
+import {
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryKey,
+  Property
+} from '@mikro-orm/core';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { v4 } from 'uuid';
 
-export interface ITorrent {
-  id: string;
-  name: string;
-  state: string;
-  progress: number;
-  size: number;
-}
+import { TorrentFile, User } from '.';
+import { BaseEntity } from './BaseEntity';
 
+@Entity()
 @ObjectType('Torrent')
-@Collection('Torrents')
-export class Torrent implements ITorrent {
+export class Torrent extends BaseEntity {
+  @PrimaryKey()
   @Field(() => ID)
-  id: string;
+  id: string = v4();
 
   @Field()
-  name: string;
+  @Property()
+  name?: string;
 
-  @Field()
-  state: string;
+  @Field(() => User)
+  @ManyToOne(() => User)
+  user!: User;
 
-  @Field()
-  progress: number;
-
-  @Field()
-  size: number;
+  @Field(() => [TorrentFile])
+  @OneToMany(() => TorrentFile, (file) => file.torrent)
+  files?: TorrentFile[];
 }
-
-export const repository = getRepository(Torrent);
