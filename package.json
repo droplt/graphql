@@ -6,13 +6,13 @@
   "repository": "git@github.com:droplt/graphql.git",
   "license": "MIT",
   "author": "François Lefebvre <francois.lfe@gmail.com>",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
     "postbuild": "cpy package.json yarn.lock dist",
     "lint": "eslint . --ext .ts --fix",
     "predev": "cpy .env.example .env --rename --no-overwrite",
-    "dev": "ts-node-dev --respawn --clear --transpile-only --rs server/index.ts",
+    "dev": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts",
     "db": "mikro-orm",
     "prepare": "husky install"
   },
@@ -58,15 +58,9 @@
   "eslintIgnore": [
     ".husky",
     "dist",
+    "migrations",
     "node_modules"
   ],
-  "mikro-orm": {
-    "useTsNode": true,
-    "configPaths": [
-      "./server/config/mikro-orm.config.ts",
-      "./dist/config/mikro-orm.config.js"
-    ]
-  },
   "dependencies": {
     "@mikro-orm/cli": "^4.5.6",
     "@mikro-orm/core": "^4.5.6",
@@ -104,5 +98,12 @@
     "sort-package-json": "^1.50.0",
     "ts-node-dev": "^1.1.7",
     "typescript": "^4.3.4"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/utils/config/mikro-orm.config.ts",
+      "./dist/utils/config/mikro-orm.config.js"
+    ]
   }
 }

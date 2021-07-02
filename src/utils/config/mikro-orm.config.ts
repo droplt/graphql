@@ -1,11 +1,14 @@
 import { Options } from '@mikro-orm/core';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 
-import { BaseEntity, Torrent, TorrentFile, User } from '../entities';
+import { Base } from '../../entities/Base';
+import { Torrent } from '../../entities/Torrent';
+import { TorrentFile } from '../../entities/TorrentFile';
+import { User } from '../../entities/User';
 
 const config: Options = {
   type: 'sqlite',
-  entities: [BaseEntity, Torrent, TorrentFile, User],
+  entities: [Base, Torrent, TorrentFile, User],
   migrations: {
     tableName: 'migrations',
     path: `${process.cwd()}/migrations`,

@@ -1,4 +1,4 @@
-import './config/graphql-enums';
+import './utils/enums/graphql';
 
 import { Connection, IDatabaseDriver, MikroORM } from '@mikro-orm/core';
 import { ApolloServer } from 'apollo-server-express';
@@ -6,8 +6,10 @@ import express, { Express } from 'express';
 import path from 'path';
 import * as TypeGraphQL from 'type-graphql';
 
-import config from './config/mikro-orm.config';
-import { TorrentResolver, UserResolver } from './resolvers';
+import { TorrentResolver } from './resolvers/TorrentResolver';
+import { UserResolver } from './resolvers/UserResolver';
+import config from './utils/config/mikro-orm.config';
+import { Context } from './utils/interfaces/context';
 
 const { PORT = 1338 } = process.env;
 
@@ -51,11 +53,11 @@ export default class Application {
           resolvers: [UserResolver, TorrentResolver],
           emitSchemaFile: 'public/schema.graphql'
         }),
-        context: async () => {
-          return {
-            em: this.orm.em.fork()
-          };
-        }
+        context: ({ req, res }): Context => ({
+          em: this.orm.em.fork(),
+          req,
+          res
+        })
       });
     } catch (error) {
       console.error('📌 Could not instantiate apollo server', error);

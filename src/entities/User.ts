@@ -9,12 +9,13 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { v4 } from 'uuid';
 
-import { Torrent } from '.';
-import { BaseEntity } from './BaseEntity';
+import { UserRole } from '../utils/enums/user-role';
+import { Base } from './Base';
+import { Torrent } from './Torrent';
 
 @ObjectType('User')
 @Entity()
-export class User extends BaseEntity {
+export class User extends Base {
   @Field(() => ID)
   @PrimaryKey()
   id: string = v4();
@@ -40,10 +41,4 @@ export class User extends BaseEntity {
   @Field(() => [Torrent])
   @OneToMany(() => Torrent, (torrent) => torrent.user, { nullable: true })
   torrents?: Torrent[];
-}
-
-export enum UserRole {
-  ADMIN = 'admin',
-  CONTRIBUTOR = 'contributor',
-  VISITOR = 'visitor'
 }

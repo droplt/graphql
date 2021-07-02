@@ -1,6 +1,6 @@
 import { registerEnumType } from 'type-graphql';
 
-import { UserRole } from '../entities';
+import { UserRole } from './user-role';
 
 registerEnumType(UserRole, {
   name: 'UserRole'
