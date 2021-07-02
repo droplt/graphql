@@ -1,4 +1,4 @@
 export * from './BaseEntity';
-export * from './Torrent';
+export * from './torrentEntity';
 export * from './TorrentFile';
-export * from './User';
+export * from './userentity';

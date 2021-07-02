@@ -50,7 +50,12 @@ export default class Application {
         schema: await TypeGraphQL.buildSchema({
           resolvers: [UserResolver, TorrentResolver],
           emitSchemaFile: 'public/schema.graphql'
-        })
+        }),
+        context: async () => {
+          return {
+            em: this.orm.em.fork()
+          };
+        }
       });
     } catch (error) {
       console.error('📌 Could not instantiate apollo server', error);
