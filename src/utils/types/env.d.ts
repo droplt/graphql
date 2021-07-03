@@ -1,5 +1,5 @@
 declare namespace NodeJS {
-  export interface ProcessEnv {
+  interface ProcessEnv {
     PORT: string;
     MIKRO_ORM_DB_NAME: string;
     TRANSMISSION_URL: string;
