@@ -34,9 +34,9 @@ export default class Application {
      */
     try {
       this.orm = await MikroORM.init(config);
-    } catch (error) {
-      console.error('📌 Could not connect to the database', error);
-      throw Error(error);
+    } catch (e) {
+      console.error('📌 Could not connect to the database', e);
+      throw Error(e);
     }
 
     /**
@@ -54,9 +54,9 @@ export default class Application {
           res
         })
       });
-    } catch (error) {
-      console.error('📌 Could not instantiate apollo server', error);
-      throw Error(error);
+    } catch (e) {
+      console.error('📌 Could not instantiate apollo server', e);
+      throw Error(e);
     }
   };
 
@@ -76,8 +76,13 @@ export default class Application {
     /**
      * Start Express server
      */
-    this.app.listen(PORT, () => {
-      console.log(`🚀 http://localhost:${PORT}/graphql`);
-    });
+    this.app
+      .listen(PORT, () => {
+        console.log(`🚀 http://localhost:${PORT}/graphql`);
+      })
+      .on('error', (e) => {
+        console.error('📌 An error occured', e.message);
+        throw Error(e.message);
+      });
   };
 }
