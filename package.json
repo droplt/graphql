@@ -11,7 +11,7 @@
     "build": "tsc",
     "postbuild": "cpy package.json yarn.lock dist",
     "lint": "eslint . --ext .ts --fix",
-    "predev": "run-s gen:env gen:env-types",
+    "predev": "run-s gen:env gen:types",
     "gen:env": "cpy .env.example .env --rename --no-overwrite",
     "gen:types": "gen-env-types .env.example -o src/utils/types/env.d.ts",
     "dev": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts",
