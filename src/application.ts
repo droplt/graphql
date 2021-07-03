@@ -34,11 +34,6 @@ export default class Application {
      */
     try {
       this.orm = await MikroORM.init(config);
-      // const migrator = this.orm.getMigrator();
-      // const migrations = await migrator.getPendingMigrations();
-      // if (migrations && migrations.length > 0) {
-      //   await migrator.up();
-      // }
     } catch (error) {
       console.error('📌 Could not connect to the database', error);
       throw Error(error);
