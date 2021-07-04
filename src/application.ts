@@ -1,6 +1,6 @@
 import './utils/enums/graphql';
 
-import { Connection, IDatabaseDriver, MikroORM } from '@mikro-orm/core';
+import { MikroORM } from '@mikro-orm/core';
 import { ApolloServer } from 'apollo-server-express';
 import express, { Express } from 'express';
 import path from 'path';
@@ -9,12 +9,14 @@ import * as TypeGraphQL from 'type-graphql';
 import { TorrentResolver } from './resolvers/TorrentResolver';
 import { UserResolver } from './resolvers/UserResolver';
 import config from './utils/config/mikro-orm.config';
+import { loadFixtures } from './utils/fixtures/load';
 import { Context } from './utils/interfaces/context';
+import { Orm } from './utils/types/orm';
 
 const { PORT = 1338 } = process.env;
 
 export default class Application {
-  public orm: MikroORM<IDatabaseDriver<Connection>>;
+  public orm: Orm;
   public server: ApolloServer;
   public app: Express;
 
@@ -34,6 +36,7 @@ export default class Application {
      */
     try {
       this.orm = await MikroORM.init(config);
+      await loadFixtures(this.orm);
     } catch (e) {
       console.error('📌 Could not connect to the database', e);
       throw Error(e);
@@ -67,7 +70,7 @@ export default class Application {
     // Connect ApolloServer to Express
     this.server.applyMiddleware({ app: this.app, path: '/graphql' });
 
-    // Serve public files (GraphQL schema …)
+    // Serve public files (GraphQL schema file …)
     this.app.use(express.static(path.resolve('public')));
 
     // Add support for JSON requests

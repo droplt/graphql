@@ -6,6 +6,7 @@ import {
   Property,
   Unique
 } from '@mikro-orm/core';
+import { Fixture } from '@mikro-resources/fixtures';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { v4 } from 'uuid';
 
@@ -30,14 +31,14 @@ export class User extends Base {
   @Unique()
   email!: string;
 
-  @Field()
-  @Property()
+  @Property({ hidden: true })
   password!: string;
 
   @Field(() => UserRole)
   @Enum(() => UserRole)
   role!: UserRole;
 
+  @Fixture({ ignore: true })
   @Field(() => [Torrent])
   @OneToMany(() => Torrent, (torrent) => torrent.user, { nullable: true })
   torrents?: Torrent[];
